@@ -1,6 +1,9 @@
 package com.todolist.webservices.restfulwebservices.todo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Todo {
 	private long id;
@@ -10,16 +13,24 @@ public class Todo {
 	private boolean isDone;
 
 	
+	
 	protected Todo() {
 		
 	}
 	
-	public Todo(long id, String username, String description, Date targetDate, boolean isDone) {
+	public Todo(long id, String username, String description, String targetDate, boolean isDone) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.description = description;
-		this.targetDate = targetDate;
+		SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+		
+		try {
+			this.targetDate = sdf.parse(targetDate);
+		} catch (ParseException e) {
+			
+			e.printStackTrace();
+		}
 		this.isDone = isDone;
 	}
 
@@ -51,8 +62,15 @@ public class Todo {
 		return targetDate;
 	}
 
-	public void setTargetDate(Date targetDate) {
-		this.targetDate = targetDate;
+	public void setTargetDate(String targetDate) {
+		SimpleDateFormat sdf =  new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+		
+		try {
+			this.targetDate = sdf.parse(targetDate);
+		} catch (ParseException e) {
+			
+			e.printStackTrace();
+		}
 	}
 
 	public boolean isDone() {
